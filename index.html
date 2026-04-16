@@ -34,6 +34,13 @@
         background: linear-gradient(120deg, rgba(225, 6, 27, 0.18), rgba(20, 20, 20, 0.96));
         box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
       }
+      .hero-image {
+        width: 100%;
+        height: clamp(250px, 40vw, 450px);
+        object-fit: cover;
+        border-radius: 12px;
+        margin-top: 20px;
+      }
       .tag { display: inline-block; padding: 6px 12px; border-radius: 999px; background: var(--red); font-weight: 700; margin-bottom: 14px; }
       h1 { font-size: clamp(1.9rem, 4vw, 3.2rem); line-height: 1.12; margin-bottom: 12px; }
       .subtitle { color: var(--muted); max-width: 760px; margin-bottom: 24px; }
@@ -127,13 +134,12 @@
         <h1>2º Treinão Brabus • Corrida de 3KM e 5KM</h1>
         <p class="subtitle">Mais que corrida: evolução física e mental com disciplina, energia e uma comunidade que cresce junta.</p>
         <a class="cta" href="https://forms.gle/kpoSXsSWmpraWuAU6" target="_blank" rel="noopener noreferrer">Inscreva-se agora</a>
-        <div class="">
-          <p><figure class="grid "><img src="public/foto-02.jpg" alt="Foto 02" loading="lazy" /></figure></p>
-        </div>
+        <img class="hero-image" src="public/foto-02.jpg" alt="Foto 02" loading="lazy"/>
       </section>
 
       <section class="grid">
         <article class="card card--full">
+          
           <h2>Quem somos</h2>
           <p>A <span class="highlight">Brabus Suplementos</span> e o <span class="highlight">Brabus Run Club</span> nasceram com o mesmo propósito: evolução. 💪🏃‍♂️ Não é só sobre suplementação. Não é só sobre corrida. É sobre saúde, disciplina e comunidade.</p>
           <h2>Objetivo da corrida</h2>
