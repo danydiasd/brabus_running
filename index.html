@@ -18,35 +18,31 @@
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body {
         font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        background:
-          radial-gradient(circle at 20% 0%, rgba(225, 6, 27, 0.25), transparent 40%),
-          radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.08), transparent 28%),
-          var(--bg);
+        background: radial-gradient(circle at 20% 0%, rgba(225, 6, 27, 0.25), transparent 40%),
+          radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.08), transparent 28%), var(--bg);
         color: var(--text);
         line-height: 1.6;
       }
       .container { max-width: 1140px; margin: 0 auto; padding: 28px 20px 56px; }
-      .hero {
+      .hero, .card, .carousel-wrap {
         border: 1px solid var(--border);
-        border-radius: 18px;
+        border-radius: 16px;
+        background: var(--card);
+      }
+      .hero {
         padding: 32px;
         background: linear-gradient(120deg, rgba(225, 6, 27, 0.18), rgba(20, 20, 20, 0.96));
         box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
       }
-      .tag {
-        display: inline-block; padding: 6px 12px; border-radius: 999px; background: var(--red); color: var(--white);
-        font-weight: 700; letter-spacing: 0.4px; font-size: 0.85rem; margin-bottom: 14px;
-      }
+      .tag { display: inline-block; padding: 6px 12px; border-radius: 999px; background: var(--red); font-weight: 700; margin-bottom: 14px; }
       h1 { font-size: clamp(1.9rem, 4vw, 3.2rem); line-height: 1.12; margin-bottom: 12px; }
-      .subtitle { color: var(--muted); max-width: 760px; margin-bottom: 24px; font-size: 1.02rem; }
-      .cta {
-        display: inline-block; background: var(--red); color: var(--white); text-decoration: none; font-weight: 800;
-        font-size: 1rem; padding: 12px 20px; border-radius: 12px; border: 1px solid transparent; transition: 0.2s ease;
-      }
-      .cta:hover { background: var(--red-strong); transform: translateY(-1px); }
+      .subtitle { color: var(--muted); max-width: 760px; margin-bottom: 24px; }
+      .cta { display: inline-block; background: var(--red); color: var(--white); text-decoration: none; font-weight: 800; padding: 12px 20px; border-radius: 12px; }
+      .cta:hover { background: var(--red-strong); }
+
       .grid { margin-top: 28px; display: grid; gap: 18px; }
-      .card { border: 1px solid var(--border); border-radius: 16px; padding: 22px; background: var(--card); }
-      .card h2 { font-size: 1.35rem; margin-bottom: 10px; color: var(--white); }
+      .card { padding: 22px; }
+      .card h2 { font-size: 1.35rem; margin-bottom: 10px; }
       .card p, .card li { color: var(--muted); }
       .highlight { color: var(--white); font-weight: 700; }
       .event-list { list-style: none; margin-top: 8px; display: grid; gap: 8px; }
@@ -54,25 +50,69 @@
       .benefits { margin-top: 12px; padding-left: 20px; display: grid; gap: 8px; }
 
       .gallery { margin-top: 28px; }
-      .gallery h2 { margin-bottom: 12px; font-size: 1.5rem; }
-      .gallery-grid {
-        display: grid;
-        gap: 12px;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      .gallery h2 { margin-bottom: 12px; }
+      .carousel-wrap { padding: 14px; overflow: hidden; }
+      .carousel {
+        display: flex;
+        transition: transform 0.35s ease;
+        touch-action: pan-y;
       }
-      .gallery-item {
+      .slide {
+        min-width: 100%;
         border-radius: 12px;
         overflow: hidden;
+        aspect-ratio: 16/10;
+        cursor: zoom-in;
+      }
+      .slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+      .carousel-controls { margin-top: 12px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+      .btn {
+        background: #1f1f1f;
+        color: var(--white);
         border: 1px solid var(--border);
-        background: #111;
-        aspect-ratio: 3 / 4;
+        border-radius: 10px;
+        padding: 8px 12px;
+        cursor: pointer;
       }
-      .gallery-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
+      .btn:hover { border-color: var(--red); }
+      .dots { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+      .dot { width: 10px; height: 10px; border-radius: 999px; border: 1px solid #666; background: #252525; cursor: pointer; }
+      .dot.active { background: var(--red); border-color: var(--red); }
+
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 99;
+        padding: 20px;
       }
+      .lightbox.open { display: flex; }
+      .lightbox img {
+        max-width: min(95vw, 1200px);
+        max-height: 90vh;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        border-radius: 8px;
+      }
+      .close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        font-size: 28px;
+        line-height: 1;
+        background: #1f1f1f;
+        color: var(--white);
+        border: 1px solid #444;
+        border-radius: 10px;
+        padding: 4px 10px;
+        cursor: pointer;
+      }
+
       footer { margin-top: 28px; color: #9f9f9f; font-size: 0.92rem; text-align: center; }
       @media (min-width: 900px) {
         .grid { grid-template-columns: repeat(3, 1fr); }
@@ -85,78 +125,143 @@
       <section class="hero">
         <span class="tag">BRABUS RUN CLUB</span>
         <h1>2º Treinão Brabus • Corrida de 3KM e 5KM</h1>
-        <p class="subtitle">
-          Mais que corrida: evolução física e mental com disciplina, energia e uma comunidade que cresce junta.
-          Garanta sua vaga no próximo treinão e venha viver essa experiência.
-        </p>
-        <a class="cta" href="https://forms.gle/kpoSXsSWmpraWuAU6" target="_blank" rel="noopener noreferrer"
-          >Inscreva-se agora</a
-        >
-         <figure class="gallery-item img"><img src="public/foto-02.jpg" alt="Foto do evento Brabus Run Club 02" loading="lazy" /></figure>
+        <p class="subtitle">Mais que corrida: evolução física e mental com disciplina, energia e uma comunidade que cresce junta.</p>
+        <a class="cta" href="https://forms.gle/kpoSXsSWmpraWuAU6" target="_blank" rel="noopener noreferrer">Inscreva-se agora</a>
       </section>
 
       <section class="grid">
-        <article class="card card--full">
-          <h2>Quem somos</h2>
-          <p>
-            A <span class="highlight">Brabus Suplementos</span> e o <span class="highlight">Brabus Run Club</span> nasceram com o mesmo propósito: evolução. 💪🏃‍♂️
-            Não é só sobre suplementação. Não é só sobre corrida. É sobre saúde, disciplina e uma comunidade que cresce junta.
-            Aqui, cada treino conta. Cada passo importa. E ninguém evolui sozinho.
-          </p>
-          <h2>Objetivo da corrida</h2>
+        <article class="card">
+          <h2>1. Quem somos</h2>
+          <p>A <span class="highlight">Brabus Suplementos</span> e o <span class="highlight">Brabus Run Club</span> nasceram com o mesmo propósito: evolução. 💪🏃‍♂️ Não é só sobre suplementação. Não é só sobre corrida. É sobre saúde, disciplina e comunidade.</p>
+        </article>
+        <article class="card">
+          <h2>2. Objetivo da corrida</h2>
           <p>Mais que correr, queremos criar uma comunidade forte, unida e focada em evolução física e mental.</p>
+        </article>
+        <article class="card">
           <h2>3. Descrição da corrida</h2>
-          <p>Fala, pessoal! Estamos organizando o <span class="highlight">2º Treinão Brabus</span>, ainda mais forte, mais organizado e com uma experiência ainda mais incrível. 🔥🚀</p>
           <ul class="event-list">
             <li>📅 Data: <span class="highlight">21/04</span></li>
             <li>🏃‍♂️ Percurso: <span class="highlight">3KM e 5KM</span></li>
             <li>⏰ Concentração: <span class="highlight">05h às 05h30</span></li>
             <li>🚀 Largada: <span class="highlight">06h</span></li>
-            <li>📍 Local: <span class="highlight">Rua Arakem, 589 – Barra do Ceará</span> (ao lado do Cometa da Leste Oeste)</li>
+            <li>📍 Local: <span class="highlight">Rua Arakem, 589 – Barra do Ceará</span></li>
           </ul>
           <ul class="benefits">
-            <li>🔥 Degustação</li>
-            <li>🥤 Whey</li>
-            <li>⚡ Pré-treino</li>
-            <li>🤝 Galera da Rapid Fuse</li>
-            <li>📸 Fotógrafo profissional</li>
-            <li>☕ Coffee break</li>
-            <li>🎁 Sorteio exclusivo</li>
+            <li>🔥 Degustação</li><li>🥤 Whey</li><li>⚡ Pré-treino</li><li>📸 Fotógrafo profissional</li><li>☕ Coffee break</li><li>🎁 Sorteio exclusivo</li>
           </ul>
         </article>
-
         <article class="card card--full">
           <h2>Por que entrar no grupo e preencher suas informações?</h2>
           <ul class="benefits">
-            <li>✅ Controle de participantes</li>
-            <li>✅ Informações atualizadas do evento</li>
-            <li>✅ Tirar dúvidas direto com a organização</li>
-            <li>✅ Ficar por dentro de tudo antes da largada</li>
+            <li>✅ Controle de participantes</li><li>✅ Informações atualizadas</li><li>✅ Dúvidas direto com a organização</li><li>✅ Ficar por dentro de tudo antes da largada</li>
           </ul>
         </article>
       </section>
 
       <section class="gallery">
-        <h2>Fotos do Brabus Run Club</h2>
-        <div class="gallery-grid">
-          <figure class="gallery-item img"><img src="public/foto-01.jpg" alt="Foto do evento Brabus Run Club 01" loading="lazy" /></figure>
-          <figure class="gallery-item"><img src="public/foto-03.jpg" alt="Foto do evento Brabus Run Club 03" loading="lazy" /></figure>
-          <figure class="gallery-item"><img src="public/foto-04.jpg" alt="Foto do evento Brabus Run Club 04" loading="lazy" /></figure>
-          <figure class="gallery-item"><img src="public/foto-05.jpg" alt="Foto do evento Brabus Run Club 05" loading="lazy" /></figure>
-          <figure class="gallery-item"><img src="public/foto-06.jpg" alt="Foto do evento Brabus Run Club 06" loading="lazy" /></figure>
-          <figure class="gallery-item"><img src="public/foto-07.jpg" alt="Foto do evento Brabus Run Club 07" loading="lazy" /></figure>
-          <figure class="gallery-item"><img src="public/foto-08.jpg" alt="Foto do evento Brabus Run Club 08" loading="lazy" /></figure>
-          <figure class="gallery-item"><img src="public/foto-09.jpg" alt="Foto do evento Brabus Run Club 09" loading="lazy" /></figure>
-          <figure class="gallery-item"><img src="public/foto-10.jpg" alt="Foto do evento Brabus Run Club 10" loading="lazy" /></figure>
-          <figure class="gallery-item"><img src="public/foto-11.jpg" alt="Foto do evento Brabus Run Club 11" loading="lazy" /></figure>
-          <figure class="gallery-item"><img src="public/foto-12.jpg" alt="Foto do evento Brabus Run Club 12" loading="lazy" /></figure>
-          <figure class="gallery-item"><img src="public/foto-13.jpg" alt="Foto do evento Brabus Run Club 13" loading="lazy" /></figure>
-          <figure class="gallery-item"><img src="public/foto-14.jpg" alt="Foto do evento Brabus Run Club 14" loading="lazy" /></figure>
-          <figure class="gallery-item"><img src="public/foto-15.jpg" alt="Foto do evento Brabus Run Club 15" loading="lazy" /></figure>
+        <h2>Fotos do Brabus Run Club (Swipe + Clique para ampliar)</h2>
+        <div class="carousel-wrap">
+          <div class="carousel" id="carousel">
+            <figure class="slide"><img src="public/foto-01.jpg" alt="Foto 01" loading="lazy" /></figure>
+            <figure class="slide"><img src="public/foto-02.jpg" alt="Foto 02" loading="lazy" /></figure>
+            <figure class="slide"><img src="public/foto-03.jpg" alt="Foto 03" loading="lazy" /></figure>
+            <figure class="slide"><img src="public/foto-04.jpg" alt="Foto 04" loading="lazy" /></figure>
+            <figure class="slide"><img src="public/foto-05.jpg" alt="Foto 05" loading="lazy" /></figure>
+            <figure class="slide"><img src="public/foto-06.jpg" alt="Foto 06" loading="lazy" /></figure>
+            <figure class="slide"><img src="public/foto-07.jpg" alt="Foto 07" loading="lazy" /></figure>
+            <figure class="slide"><img src="public/foto-08.jpg" alt="Foto 08" loading="lazy" /></figure>
+            <figure class="slide"><img src="public/foto-09.jpg" alt="Foto 09" loading="lazy" /></figure>
+            <figure class="slide"><img src="public/foto-10.jpg" alt="Foto 10" loading="lazy" /></figure>
+            <figure class="slide"><img src="public/foto-11.jpg" alt="Foto 11" loading="lazy" /></figure>
+            <figure class="slide"><img src="public/foto-12.jpg" alt="Foto 12" loading="lazy" /></figure>
+            <figure class="slide"><img src="public/foto-13.jpg" alt="Foto 13" loading="lazy" /></figure>
+            <figure class="slide"><img src="public/foto-14.jpg" alt="Foto 14" loading="lazy" /></figure>
+            <figure class="slide"><img src="public/foto-15.jpg" alt="Foto 15" loading="lazy" /></figure>
+          </div>
+          <div class="carousel-controls">
+            <button class="btn" id="prev">◀ Anterior</button>
+            <div class="dots" id="dots"></div>
+            <button class="btn" id="next">Próxima ▶</button>
+          </div>
         </div>
       </section>
 
-      <footer>Brabus Run Club • energia, foco e evolução.</footer>
+      <footer>Brabus Run Club • Vermelho, preto e branco: energia, foco e evolução.</footer>
     </main>
+
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+      <button class="close" id="closeLightbox" aria-label="Fechar">×</button>
+      <img id="lightboxImage" src="" alt="Imagem ampliada" />
+    </div>
+
+    <script>
+      const carousel = document.getElementById('carousel');
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const dotsWrap = document.getElementById('dots');
+      const prev = document.getElementById('prev');
+      const next = document.getElementById('next');
+
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImage = document.getElementById('lightboxImage');
+      const closeLightbox = document.getElementById('closeLightbox');
+
+      let current = 0;
+      let startX = 0;
+      let endX = 0;
+
+      function goTo(index) {
+        current = (index + slides.length) % slides.length;
+        carousel.style.transform = `translateX(-${current * 100}%)`;
+        document.querySelectorAll('.dot').forEach((dot, i) => dot.classList.toggle('active', i === current));
+      }
+
+      slides.forEach((slide, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'dot' + (i === 0 ? ' active' : '');
+        dot.addEventListener('click', () => goTo(i));
+        dotsWrap.appendChild(dot);
+
+        slide.addEventListener('click', () => {
+          const img = slide.querySelector('img');
+          lightboxImage.src = img.src;
+          lightboxImage.alt = img.alt;
+          lightbox.classList.add('open');
+          lightbox.setAttribute('aria-hidden', 'false');
+        });
+      });
+
+      prev.addEventListener('click', () => goTo(current - 1));
+      next.addEventListener('click', () => goTo(current + 1));
+
+      carousel.addEventListener('touchstart', (e) => { startX = e.changedTouches[0].clientX; }, { passive: true });
+      carousel.addEventListener('touchend', (e) => {
+        endX = e.changedTouches[0].clientX;
+        const delta = endX - startX;
+        if (delta > 40) goTo(current - 1);
+        if (delta < -40) goTo(current + 1);
+      });
+
+      closeLightbox.addEventListener('click', () => {
+        lightbox.classList.remove('open');
+        lightbox.setAttribute('aria-hidden', 'true');
+      });
+
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+          lightbox.classList.remove('open');
+          lightbox.setAttribute('aria-hidden', 'true');
+        }
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') goTo(current - 1);
+        if (e.key === 'ArrowRight') goTo(current + 1);
+        if (e.key === 'Escape') {
+          lightbox.classList.remove('open');
+          lightbox.setAttribute('aria-hidden', 'true');
+        }
+      });
+    </script>
   </body>
 </html>
